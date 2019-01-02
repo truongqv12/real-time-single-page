@@ -9,13 +9,15 @@ class Question extends Model
     protected $table = 'questions';
 
     protected $guarded = [];
-//    protected $fillable = [
-//        'id', 'title', 'slug', 'body', 'cat_id', 'user_id'
-//    ];
 
     public function getRouteKeyName()
     {
         return 'slug';
+    }
+
+    public function getPathAttribute()
+    {
+        return asset("api/question/$this->slug");
     }
 
     public function user()
@@ -33,8 +35,5 @@ class Question extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function getPathAttribute()
-    {
-        return asset("api/question/$this->slug");
-    }
+
 }

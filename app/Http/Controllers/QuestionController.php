@@ -8,14 +8,19 @@ use App\Http\Resources\QuestionResource;
 
 class QuestionController extends Controller
 {
+     /**
+     * Create a new AuthController instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('JWT', ['except' => ['index', 'show']]);
+    }
+    
     public function index()
     {
         return QuestionResource::collection(Question::latest()->get());
-    }
-
-    public function create()
-    {
-        //
     }
 
     public function store(Request $request)
@@ -32,7 +37,8 @@ class QuestionController extends Controller
 
     public function update(Request $request, Question $question)
     {
-        //
+        $question->update($request->all());
+        return response('Updated', 202);
     }
 
     public function destroy(Question $question)
